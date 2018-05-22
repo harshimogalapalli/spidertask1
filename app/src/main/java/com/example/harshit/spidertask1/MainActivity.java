@@ -2,6 +2,7 @@ package com.example.harshit.spidertask1;
 
 import android.content.Intent;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.ToneGenerator;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-private boolean isPaused=false;
+private boolean isPaused=false;  MediaPlayer mplayer;
     Button button,button3;
     TextView textView;
 public CountDownTimer mycounter;
@@ -22,6 +23,7 @@ public CountDownTimer mycounter;
         setContentView(R.layout.activity_main);
        Button button = (Button) findViewById(R.id.button);
       final Button button3 = (Button) findViewById(R.id.button3);
+      mplayer = MediaPlayer.create(getApplicationContext(),R.raw.beep);
 
         textView = (TextView) findViewById(R.id.textView2);
         button.setOnClickListener(new View.OnClickListener() {
@@ -31,22 +33,17 @@ public CountDownTimer mycounter;
                     public void onTick(long millisUntilFinished) {
 
 
-                        textView.setText("" + millisUntilFinished / 1000);
-                        if (millisUntilFinished == 3000) {
-                            ToneGenerator tone = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
-                            tone.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
-
+                        textView.setText("" + millisUntilFinished / 1000); if(millisUntilFinished<=3000){
+                            mplayer.start();
                         }
+
 
                     }
 
-                    public void onFinish() {
+                    public void onFinish() {  mplayer.stop();
                         Toast.makeText(getApplicationContext(), "stopwatch  started", Toast.LENGTH_SHORT).show();
 
-
-                        run();
-
-
+run();
                     }
 
                 }.start();
@@ -66,7 +63,7 @@ public CountDownTimer mycounter;
             @Override
             public void onClick(View v) {mycounter.cancel();
             Intent intent=new Intent(v.getContext(),stopwatch1.class);
-intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
             startActivityForResult(intent,0);
 
 
