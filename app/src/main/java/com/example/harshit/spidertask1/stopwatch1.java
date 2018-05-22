@@ -12,7 +12,7 @@ import android.widget.TextView;
 public class stopwatch1 extends MainActivity{
 
     TextView timer ;
-    Button start, pause, reset;
+    Button start, pause, reset,button3;
     long MillisecondTime, StartTime, TimeBuff, UpdateTime = 0L ;
     Handler handler;
     int Seconds, Minutes, MilliSeconds ;
@@ -20,26 +20,21 @@ public class stopwatch1 extends MainActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_stopwatch1);
 
         timer = (TextView)findViewById(R.id.tvTimer);
-        start = (Button)findViewById(R.id.btStart);
+
         pause = (Button)findViewById(R.id.btPause);
         reset = (Button)findViewById(R.id.btReset);
 
-        handler = new Handler() ;
 
-        start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        handler = new Handler() ;
 
                 StartTime = SystemClock.uptimeMillis();
                 handler.postDelayed(runnable, 0);
 
                 reset.setEnabled(false);
 
-            }
-        });
 
         pause.setOnClickListener(new View.OnClickListener() {
             @Override
