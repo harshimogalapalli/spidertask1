@@ -12,10 +12,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-
+private boolean isPaused=false;
     Button button,button3;
     TextView textView;
-
+public CountDownTimer mycounter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,13 +27,14 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CountDownTimer(15000, 1000) {
+                mycounter=new CountDownTimer(15000, 1000) {
                     public void onTick(long millisUntilFinished) {
 
+
                         textView.setText("" + millisUntilFinished / 1000);
-                        if(millisUntilFinished==3000){
-                            ToneGenerator tone=new ToneGenerator(AudioManager.STREAM_ALARM,100);
-                            tone.startTone(ToneGenerator.TONE_CDMA_ABBR_ALERT,90);
+                        if (millisUntilFinished == 3000) {
+                            ToneGenerator tone = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+                            tone.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
 
                         }
 
@@ -42,16 +43,19 @@ public class MainActivity extends AppCompatActivity {
                     public void onFinish() {
                         Toast.makeText(getApplicationContext(), "stopwatch  started", Toast.LENGTH_SHORT).show();
 
-                        button3.performClick();
+
+                        run();
 
 
                     }
 
                 }.start();
-            }
+          }
 
             public void run() {
-                button3.performClick();
+                    button3.performClick();
+
+
 
 
             }
@@ -60,8 +64,11 @@ public class MainActivity extends AppCompatActivity {
 
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {  Intent intent=new Intent(v.getContext(),stopwatch1.class);
+            public void onClick(View v) {mycounter.cancel();
+            Intent intent=new Intent(v.getContext(),stopwatch1.class);
+intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivityForResult(intent,0);
+
 
             }
 
